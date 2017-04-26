@@ -4,10 +4,10 @@ function convertTemp(temp) {
   var temp, degreeType;
   
   // remove any non numeric chars (like degree symbol)
-  degreeType = temp.replace(/[^A-Z]/g, '');
+  degreeType = temp.replace(/[^A-Z,a-z]/g, '');
   temp = temp.replace(/[^0-9]/g, '');
   
-  if (degreeType === 'C') {
+  if (degreeType == 'C'|| degreeType == 'c') {
     temp = Math.round((temp * 1.8) + 32);
     temp += '&deg;' + 'F';
   } else {
@@ -18,10 +18,13 @@ function convertTemp(temp) {
   return temp;
 }
 
-function loadWeather(location, zipcode, degreeType) {
+function loadWeather(location, degreeType) {
+  //default to F in case of error.
+  if (!degreeType.length){
+    degreeType = 'F';
+  }
   $.simpleWeather({
     location: location,
-    zipcode: zipcode,
     unit: degreeType,
     success: function (weather) {
       var html;

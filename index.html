@@ -19,13 +19,13 @@
         if ("geolocation" in navigator) {
           navigator.geolocation.getCurrentPosition(function (position) {
           //load weather using your lat/lng coordinates
-          loadWeather(position.coords.latitude + ',' + position.coords.longitude, undefined, 'F'); 
+          loadWeather(position.coords.latitude + ',' + position.coords.longitude, 'F'); 
           });
         } 
         //browser does not support or is denied access
         else {
           $.get("https://ipinfo.io/json", function (response) {
-            loadWeather(response.loc, undefined, "F"); 
+            loadWeather(response.loc, "F"); 
           }, "jsonp"); 
         }
       }); //document ready
@@ -52,18 +52,18 @@
     </div> <!-- class="container-fluid"  -->
     <script type='text/javascript'>
       $('button#getInfo').on('click', function() {
-        var degreeType = $("#temp").text().replace(/[^A-Z]/g, '');
-        loadWeather( $("input#zipCode").val(), undefined, degreeType ); 
+        var degreeType = $("#temp").text().replace(/[^A-Z,a-z]/g, '');
+        loadWeather($("input#zipCode").val(), degreeType ); 
       });
       
       $('button#convert').on('click', function () {
-          //always start with default of F when loading
+          //always start with default of f when loading
           let temp = $("h2.F");
-          if (temp.length) {   //F to C
+          if (temp.length) {   //f to c
             temp.html("<h2 id='temp'>" + convertTemp($("#temp").text()) + "</h2>");
           }
           
-          if (!temp.length) { //C to F
+          if (!temp.length) { //c to f
             temp.html("<h2 id='temp' class='F'>" + convertTemp($("#temp").text()) + "</h2>");
           }
       }); 
